@@ -5,6 +5,5 @@ export const Route = createFileRoute('/__layout')({
 })
 
 function RouteComponent() {
-  return <div>
-    <hr /><Outlet/></div>
+  return <Outlet/>
 }

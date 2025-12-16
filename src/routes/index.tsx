@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
 
 function Component() {
   return (
-    <main className="max-w-dvw scroll-auto">
+    <main className="max-w-screen scroll-auto">
       <HeaderHome />
       <div className="max-w-2xl mx-auto px-4 py-6">
         <CreatPost />

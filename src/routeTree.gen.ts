@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as _layoutRouteImport } from './routes/__layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as _layoutGameRouteImport } from './routes/__layout/game'
+import { Route as _layoutChatRouteImport } from './routes/__layout/chat'
 import { Route as _layoutAboutRouteImport } from './routes/__layout/about'
 
 const _layoutRoute = _layoutRouteImport.update({
@@ -28,6 +29,11 @@ const _layoutGameRoute = _layoutGameRouteImport.update({
   path: '/game',
   getParentRoute: () => _layoutRoute,
 } as any)
+const _layoutChatRoute = _layoutChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => _layoutRoute,
+} as any)
 const _layoutAboutRoute = _layoutAboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -37,11 +43,13 @@ const _layoutAboutRoute = _layoutAboutRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof _layoutAboutRoute
+  '/chat': typeof _layoutChatRoute
   '/game': typeof _layoutGameRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof _layoutAboutRoute
+  '/chat': typeof _layoutChatRoute
   '/game': typeof _layoutGameRoute
 }
 export interface FileRoutesById {
@@ -49,14 +57,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/__layout': typeof _layoutRouteWithChildren
   '/__layout/about': typeof _layoutAboutRoute
+  '/__layout/chat': typeof _layoutChatRoute
   '/__layout/game': typeof _layoutGameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/game'
+  fullPaths: '/' | '/about' | '/chat' | '/game'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/game'
-  id: '__root__' | '/' | '/__layout' | '/__layout/about' | '/__layout/game'
+  to: '/' | '/about' | '/chat' | '/game'
+  id:
+    | '__root__'
+    | '/'
+    | '/__layout'
+    | '/__layout/about'
+    | '/__layout/chat'
+    | '/__layout/game'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -87,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutGameRouteImport
       parentRoute: typeof _layoutRoute
     }
+    '/__layout/chat': {
+      id: '/__layout/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof _layoutChatRouteImport
+      parentRoute: typeof _layoutRoute
+    }
     '/__layout/about': {
       id: '/__layout/about'
       path: '/about'
@@ -99,11 +121,13 @@ declare module '@tanstack/react-router' {
 
 interface _layoutRouteChildren {
   _layoutAboutRoute: typeof _layoutAboutRoute
+  _layoutChatRoute: typeof _layoutChatRoute
   _layoutGameRoute: typeof _layoutGameRoute
 }
 
 const _layoutRouteChildren: _layoutRouteChildren = {
   _layoutAboutRoute: _layoutAboutRoute,
+  _layoutChatRoute: _layoutChatRoute,
   _layoutGameRoute: _layoutGameRoute,
 }
 
