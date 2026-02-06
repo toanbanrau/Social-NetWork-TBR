@@ -6,6 +6,7 @@ import {
   createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { QueryClient } from "@tanstack/react-query";
+import { Toaster } from "sonner";
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   {
     head: () => ({
@@ -44,6 +45,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body>
         {children}
         <Scripts />
+        <Toaster/>
       </body>
     </html>
   );

@@ -7,4 +7,5 @@ export interface IUser {
   bio: string;
 }
 
-export type IAuth = Pick<IUser, "email" | "password">;
+export type IRegister = Pick<IUser, "email" | "password" | "username">;
+export type ILogin = Pick<IUser, "email" | "password">;

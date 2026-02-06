@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { createFileRoute } from '@tanstack/react-router';
 import { MoreVertical, Search, Send } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const mockChats = [
   {
@@ -73,8 +73,50 @@ function RouteComponent() {
   const [messages, setMessages] = useState(mockMessages)
   const [newMessage, setNewMessage] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
+  const [socket, setSocket] = useState<WebSocket | undefined>();
 
-  const selectedChatData = mockChats.find((chat) => chat.id === selectedChat)
+   useEffect(() => {
+    const ws = new WebSocket("ws://localhost:3000");
+    setSocket(ws);
+
+    ws.onopen = () => {
+      console.log("WebSocket connected!");
+    };
+
+    ws.onmessage = (event) => {
+      console.log("📩 Message received from backend:", event.data);
+    const receivedMessage = JSON.parse(event.data);
+
+      // Parse dữ liệu nhận từ backend
+     if (receivedMessage.text) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            id: Date.now(),
+            senderId: "bot",
+            content: receivedMessage.text, // Lấy text trả về để hiển thị
+            timestamp: new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }),
+            isMe: false,
+          },
+        ]);
+      }
+    };
+
+    ws.onerror = (err) => {
+      console.error("❌ WebSocket error", err);
+    };
+
+    ws.onclose = () => {
+      console.log("🔌 WebSocket closed");
+    };
+
+    // Cleanup khi component unmount
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+  const selectedChatData = mockChats.find((chat) => chat.id === selectedChat);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -84,11 +126,17 @@ function RouteComponent() {
         content: newMessage,
         timestamp: new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }),
         isMe: true,
+      };
+      
+      setMessages((prevMessages) => [...prevMessages, message]);
+      setNewMessage("");
+
+      // Gửi tin nhắn đi qua WebSocket
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ text: newMessage })); // Gửi tin nhắn dưới dạng JSON
       }
-      setMessages([...messages, message])
-      setNewMessage("")
     }
-  }
+  };
 
   const filteredChats = mockChats.filter((chat) => chat.user.name.toLowerCase().includes(searchQuery.toLowerCase()))
 

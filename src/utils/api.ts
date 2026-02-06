@@ -18,9 +18,16 @@ export const axiosUpload = axios.create({
 });
 
 axiosIntance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const authData = localStorage.getItem("auth");
+  if (authData) {
+    try {
+      const auth = JSON.parse(authData);
+      if (auth.token) {
+        config.headers.Authorization = `Bearer ${auth.token}`;
+      }
+    } catch (e) {
+      console.error("Failed to parse auth data", e);
+    }
   }
   return config;
 });

@@ -9,20 +9,43 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as _layoutRouteImport } from './routes/__layout'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as _layoutIndexRouteImport } from './routes/__layout/index'
+import { Route as _layoutSearchRouteImport } from './routes/__layout/search'
+import { Route as _layoutInsightsRouteImport } from './routes/__layout/insights'
 import { Route as _layoutGameRouteImport } from './routes/__layout/game'
 import { Route as _layoutChatRouteImport } from './routes/__layout/chat'
 import { Route as _layoutAboutRouteImport } from './routes/__layout/about'
+import { Route as _layoutActivytyIndexRouteImport } from './routes/__layout/activyty/index'
+import { Route as _layoutUserNameIndexRouteImport } from './routes/__layout/$userName/index'
+import { Route as _layoutActivytyFollowsIndexRouteImport } from './routes/__layout/activyty/follows/index'
+import { Route as _layoutUserNamePostIndexRouteImport } from './routes/__layout/$userName/post/index'
+import { Route as _layoutUserNamePostPostIdRouteImport } from './routes/__layout/$userName/post/$postId'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const _layoutRoute = _layoutRouteImport.update({
   id: '/__layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const _layoutIndexRoute = _layoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => _layoutRoute,
+} as any)
+const _layoutSearchRoute = _layoutSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => _layoutRoute,
+} as any)
+const _layoutInsightsRoute = _layoutInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => _layoutRoute,
 } as any)
 const _layoutGameRoute = _layoutGameRouteImport.update({
   id: '/game',
@@ -39,48 +62,139 @@ const _layoutAboutRoute = _layoutAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => _layoutRoute,
 } as any)
+const _layoutActivytyIndexRoute = _layoutActivytyIndexRouteImport.update({
+  id: '/activyty/',
+  path: '/activyty/',
+  getParentRoute: () => _layoutRoute,
+} as any)
+const _layoutUserNameIndexRoute = _layoutUserNameIndexRouteImport.update({
+  id: '/$userName/',
+  path: '/$userName/',
+  getParentRoute: () => _layoutRoute,
+} as any)
+const _layoutActivytyFollowsIndexRoute =
+  _layoutActivytyFollowsIndexRouteImport.update({
+    id: '/activyty/follows/',
+    path: '/activyty/follows/',
+    getParentRoute: () => _layoutRoute,
+  } as any)
+const _layoutUserNamePostIndexRoute =
+  _layoutUserNamePostIndexRouteImport.update({
+    id: '/$userName/post/',
+    path: '/$userName/post/',
+    getParentRoute: () => _layoutRoute,
+  } as any)
+const _layoutUserNamePostPostIdRoute =
+  _layoutUserNamePostPostIdRouteImport.update({
+    id: '/$userName/post/$postId',
+    path: '/$userName/post/$postId',
+    getParentRoute: () => _layoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/about': typeof _layoutAboutRoute
   '/chat': typeof _layoutChatRoute
   '/game': typeof _layoutGameRoute
+  '/insights': typeof _layoutInsightsRoute
+  '/search': typeof _layoutSearchRoute
+  '/': typeof _layoutIndexRoute
+  '/$userName': typeof _layoutUserNameIndexRoute
+  '/activyty': typeof _layoutActivytyIndexRoute
+  '/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
+  '/$userName/post': typeof _layoutUserNamePostIndexRoute
+  '/activyty/follows': typeof _layoutActivytyFollowsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/about': typeof _layoutAboutRoute
   '/chat': typeof _layoutChatRoute
   '/game': typeof _layoutGameRoute
+  '/insights': typeof _layoutInsightsRoute
+  '/search': typeof _layoutSearchRoute
+  '/': typeof _layoutIndexRoute
+  '/$userName': typeof _layoutUserNameIndexRoute
+  '/activyty': typeof _layoutActivytyIndexRoute
+  '/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
+  '/$userName/post': typeof _layoutUserNamePostIndexRoute
+  '/activyty/follows': typeof _layoutActivytyFollowsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/__layout': typeof _layoutRouteWithChildren
+  '/auth': typeof AuthRoute
   '/__layout/about': typeof _layoutAboutRoute
   '/__layout/chat': typeof _layoutChatRoute
   '/__layout/game': typeof _layoutGameRoute
+  '/__layout/insights': typeof _layoutInsightsRoute
+  '/__layout/search': typeof _layoutSearchRoute
+  '/__layout/': typeof _layoutIndexRoute
+  '/__layout/$userName/': typeof _layoutUserNameIndexRoute
+  '/__layout/activyty/': typeof _layoutActivytyIndexRoute
+  '/__layout/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
+  '/__layout/$userName/post/': typeof _layoutUserNamePostIndexRoute
+  '/__layout/activyty/follows/': typeof _layoutActivytyFollowsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/chat' | '/game'
+  fullPaths:
+    | '/auth'
+    | '/about'
+    | '/chat'
+    | '/game'
+    | '/insights'
+    | '/search'
+    | '/'
+    | '/$userName'
+    | '/activyty'
+    | '/$userName/post/$postId'
+    | '/$userName/post'
+    | '/activyty/follows'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/chat' | '/game'
+  to:
+    | '/auth'
+    | '/about'
+    | '/chat'
+    | '/game'
+    | '/insights'
+    | '/search'
+    | '/'
+    | '/$userName'
+    | '/activyty'
+    | '/$userName/post/$postId'
+    | '/$userName/post'
+    | '/activyty/follows'
   id:
     | '__root__'
-    | '/'
     | '/__layout'
+    | '/auth'
     | '/__layout/about'
     | '/__layout/chat'
     | '/__layout/game'
+    | '/__layout/insights'
+    | '/__layout/search'
+    | '/__layout/'
+    | '/__layout/$userName/'
+    | '/__layout/activyty/'
+    | '/__layout/$userName/post/$postId'
+    | '/__layout/$userName/post/'
+    | '/__layout/activyty/follows/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   _layoutRoute: typeof _layoutRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/__layout': {
       id: '/__layout'
       path: ''
@@ -88,12 +202,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/__layout/': {
+      id: '/__layout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof _layoutIndexRouteImport
+      parentRoute: typeof _layoutRoute
+    }
+    '/__layout/search': {
+      id: '/__layout/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof _layoutSearchRouteImport
+      parentRoute: typeof _layoutRoute
+    }
+    '/__layout/insights': {
+      id: '/__layout/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof _layoutInsightsRouteImport
+      parentRoute: typeof _layoutRoute
     }
     '/__layout/game': {
       id: '/__layout/game'
@@ -116,6 +244,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutAboutRouteImport
       parentRoute: typeof _layoutRoute
     }
+    '/__layout/activyty/': {
+      id: '/__layout/activyty/'
+      path: '/activyty'
+      fullPath: '/activyty'
+      preLoaderRoute: typeof _layoutActivytyIndexRouteImport
+      parentRoute: typeof _layoutRoute
+    }
+    '/__layout/$userName/': {
+      id: '/__layout/$userName/'
+      path: '/$userName'
+      fullPath: '/$userName'
+      preLoaderRoute: typeof _layoutUserNameIndexRouteImport
+      parentRoute: typeof _layoutRoute
+    }
+    '/__layout/activyty/follows/': {
+      id: '/__layout/activyty/follows/'
+      path: '/activyty/follows'
+      fullPath: '/activyty/follows'
+      preLoaderRoute: typeof _layoutActivytyFollowsIndexRouteImport
+      parentRoute: typeof _layoutRoute
+    }
+    '/__layout/$userName/post/': {
+      id: '/__layout/$userName/post/'
+      path: '/$userName/post'
+      fullPath: '/$userName/post'
+      preLoaderRoute: typeof _layoutUserNamePostIndexRouteImport
+      parentRoute: typeof _layoutRoute
+    }
+    '/__layout/$userName/post/$postId': {
+      id: '/__layout/$userName/post/$postId'
+      path: '/$userName/post/$postId'
+      fullPath: '/$userName/post/$postId'
+      preLoaderRoute: typeof _layoutUserNamePostPostIdRouteImport
+      parentRoute: typeof _layoutRoute
+    }
   }
 }
 
@@ -123,20 +286,36 @@ interface _layoutRouteChildren {
   _layoutAboutRoute: typeof _layoutAboutRoute
   _layoutChatRoute: typeof _layoutChatRoute
   _layoutGameRoute: typeof _layoutGameRoute
+  _layoutInsightsRoute: typeof _layoutInsightsRoute
+  _layoutSearchRoute: typeof _layoutSearchRoute
+  _layoutIndexRoute: typeof _layoutIndexRoute
+  _layoutUserNameIndexRoute: typeof _layoutUserNameIndexRoute
+  _layoutActivytyIndexRoute: typeof _layoutActivytyIndexRoute
+  _layoutUserNamePostPostIdRoute: typeof _layoutUserNamePostPostIdRoute
+  _layoutUserNamePostIndexRoute: typeof _layoutUserNamePostIndexRoute
+  _layoutActivytyFollowsIndexRoute: typeof _layoutActivytyFollowsIndexRoute
 }
 
 const _layoutRouteChildren: _layoutRouteChildren = {
   _layoutAboutRoute: _layoutAboutRoute,
   _layoutChatRoute: _layoutChatRoute,
   _layoutGameRoute: _layoutGameRoute,
+  _layoutInsightsRoute: _layoutInsightsRoute,
+  _layoutSearchRoute: _layoutSearchRoute,
+  _layoutIndexRoute: _layoutIndexRoute,
+  _layoutUserNameIndexRoute: _layoutUserNameIndexRoute,
+  _layoutActivytyIndexRoute: _layoutActivytyIndexRoute,
+  _layoutUserNamePostPostIdRoute: _layoutUserNamePostPostIdRoute,
+  _layoutUserNamePostIndexRoute: _layoutUserNamePostIndexRoute,
+  _layoutActivytyFollowsIndexRoute: _layoutActivytyFollowsIndexRoute,
 }
 
 const _layoutRouteWithChildren =
   _layoutRoute._addFileChildren(_layoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   _layoutRoute: _layoutRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
