@@ -1,4 +1,4 @@
-import type { ILogin, IRegister, IUser } from "@/types/user.type";
+import type { ILogin, IRegister, IUser } from "@/types/post.type";
 import { axiosIntance } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,6 +11,32 @@ export const login = async (formLogin: ILogin) => {
   const response = await axiosIntance.post("/login", formLogin);
   return response.data;
 }
+
+export const searchUsers = async (query: string): Promise<IUser[]> => {
+  const response = await axiosIntance.get(`/users?_embed=followers&username_like=${encodeURIComponent(query)}`);
+  return response.data;
+};
+
+export const useSearchUsers = (query: string) => {
+  return useQuery({
+    queryKey: ["users", "search", query],
+    queryFn: () => searchUsers(query),
+    enabled: Boolean(query.trim()),
+  });
+};
+
+export const getSuggestedUsers = async (currentUserId: string): Promise<IUser[]> => {
+  const response = await axiosIntance.get(`/users?id_ne=${currentUserId}`);
+  return response.data;
+};
+
+export const useGetSuggestedUsers = (currentUserId: string) => {
+  return useQuery({
+    queryKey: ["users", "suggested", currentUserId],
+    queryFn: () => getSuggestedUsers(currentUserId),
+    enabled: Boolean(currentUserId),
+  });
+};
 
 export const getInfor = async (username: string): Promise<IUser | null> => {
   const response = await axiosIntance.get(`/users?username=${encodeURIComponent(username)}`);

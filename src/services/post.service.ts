@@ -3,7 +3,7 @@ import { axiosIntance } from "../utils/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const getPosts = async (): Promise<IPost[]> => {
-  const { data } = await axiosIntance.get("/posts?_embed=comments&_embed=user&_embed=likes");
+  const { data } = await axiosIntance.get("/posts?_embed=comments&_expand=user&_embed=likes");
   return data ?? [];
 };
 
@@ -15,7 +15,7 @@ export const useGetPosts = () => {
 };
 
 export const getPostsByUserId = async (userId: string): Promise<IPost[]> => {
-  const { data } = await axiosIntance.get(`/posts?userId=${userId}&_embed=comments&_embed=user&_embed=likes`);
+  const { data } = await axiosIntance.get(`/posts?userId=${userId}&_embed=comments&_expand=user&_embed=likes`);
   return data ?? [];
 }
 
@@ -27,7 +27,7 @@ export const useGetPostsByUserId = (userId: string) => {
 }
 
 export const getPostById = async (id: string): Promise<IPost> => {
-  const { data } = await axiosIntance.get(`/posts/${id}?_embed=comments&_embed=user&_embed=likes`);
+  const { data } = await axiosIntance.get(`/posts/${id}?_embed=comments&_expand=user&_embed=likes`);
   return data;
 }
 export const useGetPostById = (id: string) => {
@@ -55,9 +55,9 @@ export const createComment = async (formdata: IPostForm) => {
 export const postLike = async (postId: string, userId: string) => {
   const { data } = await axiosIntance.post("/likes", { postId, userId });
   return data;
-}
+} 
 
 export const deleteLike = async (likeId: string) => {
   const { data } = await axiosIntance.delete(`/likes/${likeId}`);
   return data;
-}
+};

@@ -60,7 +60,7 @@ export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
         <form onSubmit={handleSubmit(onSubmit)} action="">
           <div className="flex gap-3">
             <Avatar>
-              <AvatarImage src={"/placeholder.svg"} />
+              <AvatarImage src={auth.user?.avatar} />
               <AvatarFallback>B</AvatarFallback>
             </Avatar>
             <div className="flex flex-1 flex-col n">
@@ -104,7 +104,7 @@ export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
                     >
                       <X className="w-4 h-4" />
                     </button>
-                  </div>
+                  </div>  
                 ))}
               </div>
             </div>

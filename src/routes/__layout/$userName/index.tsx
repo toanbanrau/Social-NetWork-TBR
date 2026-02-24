@@ -9,7 +9,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import {
   Camera,
-  Edit,
   Instagram,
   SquareKanban,
   SquarePen,
@@ -50,7 +49,6 @@ function RouteComponent() {
   const checkMe = auth.user?.username === userName;
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [commentPost, setCommentPost] = useState<any>();
-
   if(!user) return null;
   
   return (
@@ -61,7 +59,7 @@ function RouteComponent() {
           <p className="text-sm leading-relaxed whitespace-pre-line">{user?.bio}</p>
         </div>
         <div className="w-21 h-21 rounded-full overflow-hidden">
-          <img
+          <img className="w-full h-full"
             src={user?.avatar || "https://i.pravatar.cc/150?img=1"}
           />
         </div>
@@ -74,9 +72,9 @@ function RouteComponent() {
         </div>
       </div>
        {
-        checkMe ? (<button className="font-medium mt-4 border w-full py-2 rounded-2xl" onClick={() => setOpenEdit(true)}>
+        checkMe ? (<button className="font-medium mt-4 border w-full py-2 rounded-2xl cursor-pointer" onClick={() => setOpenEdit(true)}>
         Edit Profile
-      </button>) : (<button className="font-medium mt-4 bg-black text-white w-full py-2 rounded-2xl">
+      </button>) : (<button className="font-medium mt-4 bg-black text-white w-full py-2 rounded-2xl cursor-pointer">
         Follow
       </button>)
        }

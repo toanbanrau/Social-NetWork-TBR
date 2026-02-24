@@ -11,74 +11,47 @@ import {
   Share,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
-import type { IPost } from "@/types/post.type";
+import type { IComment, IPost } from "@/types/post.type";
 import { useNavigate } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem , DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { deleteLike, postLike } from "@/services/post.service";
 import { useAtom } from "jotai";
 import { atomAuth } from "@/stores/auth";
 import { useState } from "react";
 
 interface PostItemProps {
-  post: IPost;
-  setCommentPost: (post: IPost) => void;  
+  comment: IComment;
+  setCommentPost: (comment: IPost) => void;  
   setIsCommentOpen: (open: boolean) => void;
 }
 
 const PostItem = ({
-  post,
+  comment,
   setCommentPost,
   setIsCommentOpen,
 }: PostItemProps) => {
   const navigate = useNavigate()
   const [auth] = useAtom(atomAuth);
-  const isLiked = post.likes?.some((like) => like.userId === auth.user?.id);
+  const isLiked = comment.likes?.some((like) => like.userId === auth.user?.id);
   const [liked, setLiked] = useState(isLiked ?? false);
-  const [likeCount, setLikeCount] = useState(post.likes?.length ?? 0);
+  const [likeCount, setLikeCount] = useState(comment.likes?.length ?? 0);
   const [isPending, setIsPending] = useState(false);
-  const currentLike = post.likes?.find((like) => like.userId === auth.user?.id);
+  const currentLike = comment.likes?.find((like) => like.userId === auth.user?.id);
   const [likeId, setLikeId] = useState<string | null>(currentLike?.id ?? null);
 
-const handleLike = async () => {
-  if (!auth.user?.id || isPending) return;
 
-  const prevLiked = liked;
-  const prevCount = likeCount;
-  const prevLikeId = likeId;
-
-  setLiked(!liked);
-  setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
-  setIsPending(true);
-
-  try {
-    if (liked && likeId) {
-      await deleteLike(likeId);
-      setLikeId(null);
-    } else {
-      const data = await postLike(post.id, auth.user.id);
-      setLikeId(data.id);
-    }
-  } catch {
-    setLiked(prevLiked);
-    setLikeCount(prevCount);
-    setLikeId(prevLikeId);
-  } finally {
-    setIsPending(false);
-  }
-};
   return (
     <div className="border-b">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src={post.user.avatar}/>
-              <AvatarFallback>{post.id}</AvatarFallback>
+              <AvatarImage src={comment.user.avatar}/>
+              <AvatarFallback>{comment.id}</AvatarFallback>
             </Avatar>
             <div className="cursor-pointer">
-              <p className="font-semibold text-sm">{post.user && post.user.username}</p>
+              <p className="font-semibold text-sm">{comment.user && comment.user.username}</p>
               <p className="text-xs text-muted-foreground ">
-                {new Date(post.createdAt).toLocaleDateString("vi-VN")}
+                {new Date(comment.createdAt).toLocaleDateString("vi-VN")}
               </p>
             </div>
           </div>     
@@ -119,19 +92,19 @@ const handleLike = async () => {
       <CardContent
         onClick={() =>
           navigate({
-            to: "/$userName/post/$postId",
-            params: { userName: "toanbanrau", postId: post.id },
+            to: "/$userName/post/$commentId",
+            params: { userName: "toanbanrau", commentId: comment.id },
           })
         }
         className="pt-0 pb-0 cursor-pointer"
       >
         <p className="text-sm mb-3 leading-relaxed whitespace-pre-line">
-          {post.content}
+          {comment.content}
         </p>
         <PhotoProvider>
           <div className="flex overflow-x-auto gap-4">
-            {post.images &&
-              post.images.map((image, index) => (
+            {comment.images &&
+              comment.images.map((image, index) => (
                 <PhotoView key={index} src={image}>
                   <img
                       onClick={(e) => e.stopPropagation()}
@@ -162,7 +135,7 @@ const handleLike = async () => {
             </Button>
             <Button
               onClick={() => {
-                setCommentPost(post);
+                setCommentPost(comment);
                 setIsCommentOpen(true);
               }}
               variant="ghost"
@@ -170,7 +143,7 @@ const handleLike = async () => {
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
             >
               <MessageCircle className="h-4 w-4" />
-              <span className="text-xs">{post.comments?.length ?? 0}</span>
+              <span className="text-xs">{comment.comments?.length ?? 0}</span>
             </Button>
             <Button
               variant="ghost"
@@ -193,3 +166,4 @@ const handleLike = async () => {
 };
 
 export default PostItem;
+

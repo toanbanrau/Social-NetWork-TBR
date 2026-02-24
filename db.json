@@ -33,7 +33,8 @@
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113581/Screenshot_2025-11-25_164220_w1jfn8.png",
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113582/Screenshot_2025-11-25_164447_c5cvwz.png"
       ],
-      "createdAt": "2026-02-03T10:13:02.379Z"
+      "createdAt": "2026-02-03T10:13:02.379Z",
+      "userId": "u1"
     },
     {
       "id": "07f0",
@@ -47,7 +48,8 @@
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113938/Screenshot_2025-11-25_164220_fhp52o.png",
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113939/Screenshot_2025-11-25_164447_iow1dm.png"
       ],
-      "createdAt": "2026-02-03T10:18:59.726Z"
+      "createdAt": "2026-02-03T10:18:59.726Z",
+      "userId": "zzGkWnl"
     },
     {
       "id": "8881",
@@ -55,13 +57,15 @@
       "images": [
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770115087/Screenshot_2025-11-25_164447_fzubm4.png"
       ],
-      "createdAt": "2026-02-03T10:38:07.661Z"
+      "createdAt": "2026-02-03T10:38:07.661Z",
+      "userId": "u3"
     },
     {
       "content": "321321",
       "images": [],
       "createdAt": "2026-02-06T10:48:18.611Z",
-      "id": "Qy9Y4rb"
+      "id": "Qy9Y4rb",
+      "userId": "u2"
     },
     {
       "userId": "zzGkWnl",
@@ -69,6 +73,20 @@
       "images": [],
       "createdAt": "2026-02-06T10:49:57.116Z",
       "id": "S0deSMT"
+    },
+    {
+      "userId": "zzGkWnl",
+      "content": "213231",
+      "images": [],
+      "createdAt": "2026-02-11T02:47:04.392Z",
+      "id": "NZLtTFr"
+    },
+    {
+      "userId": "zzGkWnl",
+      "content": "1234567",
+      "images": [],
+      "createdAt": "2026-02-11T02:49:53.933Z",
+      "id": "TaMjOuK"
     }
   ],
   "users": [
@@ -138,6 +156,54 @@
       "postId": "4d10",
       "userId": "u2",
       "createdAt": "2026-02-04T12:01:00.000Z"
+    },
+    {
+      "postId": "1edb",
+      "userId": "zzGkWnl",
+      "id": "de-dNPv"
+    },
+    {
+      "postId": "a4d3",
+      "userId": "zzGkWnl",
+      "id": "U_l2Jcw"
+    },
+    {
+      "postId": "a4d3",
+      "userId": "zzGkWnl",
+      "id": "aEuqhpe"
+    },
+    {
+      "postId": "a4d3",
+      "userId": "zzGkWnl",
+      "id": "2C0tMLL"
+    },
+    {
+      "postId": "9163",
+      "userId": "zzGkWnl",
+      "id": "qroEoIy"
+    },
+    {
+      "postId": "9163",
+      "userId": "zzGkWnl",
+      "id": "ovvWibC"
+    },
+    {
+      "postId": "9163",
+      "userId": "zzGkWnl",
+      "id": "g_hjjN4"
+    },
+    {
+      "postId": "9163",
+      "userId": "zzGkWnl",
+      "id": "ZNSzKV_"
+    }
+  ],
+  "followers": [
+    {
+      "followerId": "zzGkWnl",
+      "followingId": "u2",
+      "userId":"u2",
+      "id": 1
     }
   ]
 }

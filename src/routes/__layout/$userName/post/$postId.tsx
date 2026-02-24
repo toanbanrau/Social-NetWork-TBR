@@ -1,4 +1,5 @@
 import { CommentDialog } from "@/components/home/comment-dialog";
+import CommentItem from "@/components/home/comment-item";
 import PostItem from "@/components/home/post-item";
 import { useGetPostById } from "@/services/post.service";
 import type { IPost } from "@/types/post.type";
@@ -14,6 +15,7 @@ function RouteComponent() {
   const { data: post } = useGetPostById(id);
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [commentPost, setCommentPost] = useState<IPost>();
+  
   return (
     <div className="w-full max-w-2xl border rounded-md mb-4">
       {post && <PostItem post={post} setIsCommentOpen={setIsCommentOpen} setCommentPost={setCommentPost} />}
@@ -22,7 +24,7 @@ function RouteComponent() {
         <span className="text-[#999999]">View Activity</span>
       </div>
       <div>
-          {post && <PostItem post={post} setIsCommentOpen={setIsCommentOpen} setCommentPost={setCommentPost} />}
+          {post && <CommentItem comment={post.comments} setIsCommentOpen={setIsCommentOpen} setCommentPost={setCommentPost}/>}
       </div>
       <CommentDialog open={isCommentOpen} onOpenChange={setIsCommentOpen} posts={commentPost} />
     </div>
