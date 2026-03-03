@@ -1,9 +1,9 @@
-import type { IPost, IPostForm } from "@/types/post.type";
+import type { IPost, IPostForm, ICommentForm, IComment } from "@/types/post.type";
 import { axiosIntance } from "../utils/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const getPosts = async (): Promise<IPost[]> => {
-  const { data } = await axiosIntance.get("/posts?_embed=comments&_expand=user&_embed=likes");
+  const { data } = await axiosIntance.get("/posts?_expand=user&_embed=likes");
   return data ?? [];
 };
 
@@ -15,7 +15,7 @@ export const useGetPosts = () => {
 };
 
 export const getPostsByUserId = async (userId: string): Promise<IPost[]> => {
-  const { data } = await axiosIntance.get(`/posts?userId=${userId}&_embed=comments&_expand=user&_embed=likes`);
+  const { data } = await axiosIntance.get(`/posts?userId=${userId}&_expand=user&_embed=likes`);
   return data ?? [];
 }
 
@@ -27,7 +27,7 @@ export const useGetPostsByUserId = (userId: string) => {
 }
 
 export const getPostById = async (id: string): Promise<IPost> => {
-  const { data } = await axiosIntance.get(`/posts/${id}?_embed=comments&_expand=user&_embed=likes`);
+  const { data } = await axiosIntance.get(`/posts/${id}?_expand=user&_embed=likes`);
   return data;
 }
 export const useGetPostById = (id: string) => {
@@ -47,7 +47,7 @@ export const updatePost = async (id: string, formdata: IPostForm) => {
   return data;
 }
 
-export const createComment = async (formdata: IPostForm) => {
+export const createComment = async (formdata: ICommentForm) => {
   const { data } = await axiosIntance.post("/comments", formdata);
   return data;
 }
@@ -55,6 +55,11 @@ export const createComment = async (formdata: IPostForm) => {
 export const postLike = async (postId: string, userId: string) => {
   const { data } = await axiosIntance.post("/likes", { postId, userId });
   return data;
+}
+
+export const getCommentReplies = async (commentId: string): Promise<IComment[]> => {
+  const { data } = await axiosIntance.get(`/comments?parentId=${commentId}&_expand=user&_embed=likes`);
+  return data ?? [];
 } 
 
 export const deleteLike = async (likeId: string) => {

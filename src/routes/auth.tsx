@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, redirect } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,6 +9,19 @@ import { useAtom } from 'jotai'
 import { atomAuth } from '@/stores/auth'
 
 export const Route = createFileRoute('/auth')({
+  beforeLoad: async () => {
+    const authData = localStorage.getItem('auth')
+    if (authData) {
+      try {
+        const auth = JSON.parse(authData)
+        if (auth.token) {
+          throw redirect({ to: '/' })
+        }
+      } catch (e) {
+        // Nếu parse lỗi, cho phép ở lại trang auth
+      }
+    }
+  },
   component: RouteComponent,
 })
 

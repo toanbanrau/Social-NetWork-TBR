@@ -130,18 +130,93 @@
       "createdAt": "2026-02-03T11:00:00.000Z"
     },
     {
+      "id": "c1-reply1",
+      "postId": "9163",
+      "userId": "u2",
+      "parentId": "c1",
+      "content": "Great comment! I agree with you",
+      "images": [],
+      "createdAt": "2026-02-03T11:15:00.000Z"
+    },
+    {
+      "id": "c1-reply2",
+      "postId": "9163",
+      "userId": "u3",
+      "parentId": "c1",
+      "content": "Interesting perspective!",
+      "images": [],
+      "createdAt": "2026-02-03T11:20:00.000Z"
+    },
+    {
+      "id": "c1-reply1-nested",
+      "postId": "9163",
+      "userId": "u1",
+      "parentId": "c1-reply1",
+      "content": "Thanks for your response!",
+      "images": [],
+      "createdAt": "2026-02-03T11:25:00.000Z"
+    },
+    {
       "id": "75f5",
       "content": "2321",
+      "userId": "u2",
       "images": [],
       "createdAt": "2026-02-04T10:09:18.847Z",
       "postId": "4d10"
     },
     {
+      "id": "75f5-reply1",
+      "content": "Really nice post!",
+      "userId": "u1",
+      "images": [],
+      "createdAt": "2026-02-04T10:20:00.000Z",
+      "postId": "4d10",
+      "parentId": "75f5"
+    },
+    {
       "content": "23131",
       "images": [],
-      "createAt": "2026-02-06T08:22:50.641Z",
+      "userId": "u2",
+      "createdAt": "2026-02-06T08:22:50.641Z",
       "postId": "1edb",
       "id": "n_bsyBp"
+    },
+    {
+      "content": "212321",
+      "images": [],
+      "createAt": "2026-02-26T07:46:25.524Z",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "id": "fqaW8Rk"
+    },
+    {
+      "content": "324",
+      "images": [],
+      "createAt": "2026-02-26T07:46:46.073Z",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "id": "rLhTnmy"
+    },
+    {
+      "content": "21312",
+      "postId": "4d10",
+      "userId": "zzGkWnl",
+      "parentId": null,
+      "id": "_TPdT_Z"
+    },
+    {
+      "content": "444",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "parentId": null,
+      "id": "TzEuOF1"
+    },
+    {
+      "content": "21231",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "parentId": null,
+      "id": "HC17vXR"
     }
   ],
   "likes": [
@@ -180,11 +255,6 @@
     {
       "postId": "9163",
       "userId": "zzGkWnl",
-      "id": "qroEoIy"
-    },
-    {
-      "postId": "9163",
-      "userId": "zzGkWnl",
       "id": "ovvWibC"
     },
     {
@@ -196,14 +266,58 @@
       "postId": "9163",
       "userId": "zzGkWnl",
       "id": "ZNSzKV_"
+    },
+    {
+      "postId": "4d10",
+      "userId": "zzGkWnl",
+      "id": "Hqs64x-"
+    },
+    {
+      "commentId": "75f5",
+      "userId": "zzGkWnl",
+      "id": "wgpB7wV"
+    },
+    {
+      "commentId": "75f5",
+      "userId": "zzGkWnl",
+      "id": "Dz977Rz"
+    },
+    {
+      "commentId": "c1-reply1",
+      "userId": "u3",
+      "id": "like-c1-reply1"
+    },
+    {
+      "commentId": "c1-reply2",
+      "userId": "u1",
+      "id": "like-c1-reply2"
+    },
+    {
+      "commentId": "c1-reply1-nested",
+      "userId": "u2",
+      "id": "like-c1-reply1-nested"
+    },
+    {
+      "commentId": "75f5-reply1",
+      "userId": "u2",
+      "id": "like-75f5-reply1"
+    },
+    {
+      "postId": "07f0",
+      "userId": "zzGkWnl",
+      "id": "I-grfnW"
     }
   ],
   "followers": [
     {
       "followerId": "zzGkWnl",
       "followingId": "u2",
-      "userId":"u2",
       "id": 1
+    },
+    {
+      "followerId": "zzGkWnl",
+      "followingId": "u3",
+      "id": 2
     }
   ]
 }

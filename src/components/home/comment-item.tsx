@@ -9,28 +9,28 @@ import {
   MoreHorizontal,
   Repeat,
   Share,
+  User,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
-import type { IComment, IPost } from "@/types/post.type";
+import type { IComment } from "@/types/post.type";
 import { useNavigate } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem , DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useAtom } from "jotai";
 import { atomAuth } from "@/stores/auth";
 import { useState } from "react";
+import { likeComment, deleteLikeComment } from "@/services/comment.service";
 
-interface PostItemProps {
+interface CommentItemProps {
   comment: IComment;
-  setCommentPost: (comment: IPost) => void;  
+  setCommentPost: (comment: IComment) => void;
   setIsCommentOpen: (open: boolean) => void;
+  level?: number;
 }
 
-const PostItem = ({
-  comment,
-  setCommentPost,
-  setIsCommentOpen,
-}: PostItemProps) => {
-  const navigate = useNavigate()
+const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: CommentItemProps) => {
+  const navigate = useNavigate();
   const [auth] = useAtom(atomAuth);
+
   const isLiked = comment.likes?.some((like) => like.userId === auth.user?.id);
   const [liked, setLiked] = useState(isLiked ?? false);
   const [likeCount, setLikeCount] = useState(comment.likes?.length ?? 0);
@@ -38,18 +38,45 @@ const PostItem = ({
   const currentLike = comment.likes?.find((like) => like.userId === auth.user?.id);
   const [likeId, setLikeId] = useState<string | null>(currentLike?.id ?? null);
 
+  const handleLike = async () => {
+    if (!auth.user?.id || isPending) return;
+
+    const prevLiked = liked;
+    const prevCount = likeCount;
+    const prevLikeId = likeId;
+
+    setLiked(!prevLiked);
+    setLikeCount((c) => (prevLiked ? c - 1 : c + 1));
+    setIsPending(true);
+
+    try {
+      if (prevLiked && likeId) {
+        await deleteLikeComment(likeId);
+        setLikeId(null);
+      } else {
+        const data = await likeComment(comment.id, auth.user.id);
+        setLikeId(data.data.id);
+      }
+    } catch (err) {
+      setLiked(prevLiked);
+      setLikeCount(prevCount);
+      setLikeId(prevLikeId);
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return (
-    <div className="border-b">
+    <div className={cn( level > 0 && "ml-8 border-l-2 border-muted pl-4")}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src={comment.user.avatar}/>
-              <AvatarFallback>{comment.id}</AvatarFallback>
+              <AvatarImage src={comment.user?.avatar} />
+              <AvatarFallback>{comment.user.username}</AvatarFallback>
             </Avatar>
             <div className="cursor-pointer">
-              <p className="font-semibold text-sm">{comment.user && comment.user.username}</p>
+              <p className="font-semibold text-sm">{comment.user?.username ?? comment.userId}</p>
               <p className="text-xs text-muted-foreground ">
                 {new Date(comment.createdAt).toLocaleDateString("vi-VN")}
               </p>
@@ -77,13 +104,6 @@ const PostItem = ({
               <DropdownMenuItem>Block</DropdownMenuItem>
               <DropdownMenuItem>Report</DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="">Mute</DropdownMenuItem>
-              <DropdownMenuItem>Restric</DropdownMenuItem>
-              <DropdownMenuItem>Block</DropdownMenuItem>
-              <DropdownMenuItem>Report</DropdownMenuItem>
-            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
        
@@ -92,13 +112,13 @@ const PostItem = ({
       <CardContent
         onClick={() =>
           navigate({
-            to: "/$userName/post/$commentId",
-            params: { userName: "toanbanrau", commentId: comment.id },
+            to: "/$userName/post/$postId",
+            params: { userName: comment.user?.username ?? comment.userId, postId: comment.postId },
           })
         }
         className="pt-0 pb-0 cursor-pointer"
       >
-        <p className="text-sm mb-3 leading-relaxed whitespace-pre-line">
+        <p className="border-l pl-4 border-black text-sm mb-3 leading-relaxed whitespace-pre-line">
           {comment.content}
         </p>
         <PhotoProvider>
@@ -117,53 +137,67 @@ const PostItem = ({
               ))}
           </div>
         </PhotoProvider>
-        {/* Actions */}
       </CardContent>
-        <div className="flex items-center justify-between px-4">
-          <div className="flex items-center gap-4">
-            <Button
-              onClick={handleLike}
-              variant="ghost"
-              size="sm"
-              className={cn(
-                "flex items-center gap-2 text-muted-foreground hover:text-foreground",
-                liked && "text-red-500 hover:text-red-600",
-              )}
-            >
-              <Heart className={cn("h-4 w-4",liked && "fill-current")} />
-              <span className="text-xs">{likeCount}</span>
-            </Button>
-            <Button
-              onClick={() => {
-                setCommentPost(comment);
-                setIsCommentOpen(true);
-              }}
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span className="text-xs">{comment.comments?.length ?? 0}</span>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
-            >
-              <Repeat className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
-            >
-              <Share className="h-4 w-4" />
-            </Button>
-          </div>
+      <div className="flex items-center justify-between px-4">
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={handleLike}
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "flex items-center gap-2 text-muted-foreground hover:text-foreground",
+              liked && "text-red-500 hover:text-red-600",
+            )}
+          >
+            <Heart className={cn("h-4 w-4", liked && "fill-current")} />
+            <span className="text-xs">{likeCount}</span>
+          </Button>
+          <Button
+            onClick={() => {
+              setCommentPost(comment);
+              setIsCommentOpen(true);
+            }}
+            variant="ghost"
+            size="sm"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          >
+            <MessageCircle className="h-4 w-4" />
+            <span className="text-xs">{comment.replies?.length ?? 0}</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          >
+            <Repeat className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          >
+            <Share className="h-4 w-4" />
+          </Button>
         </div>
+      </div>
+
+      {/* Nested Replies */}
+      {comment.replies && comment.replies.length > 0 && (
+        <div className="mt-4">
+          {comment.replies.map((reply) => (
+            <CommentItem
+              key={reply.id}
+              comment={reply}
+              setCommentPost={setCommentPost}
+              setIsCommentOpen={setIsCommentOpen}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default PostItem;
+export default CommentItem;
 

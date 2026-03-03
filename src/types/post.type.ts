@@ -22,6 +22,10 @@ export interface IComment {
     username: string;
     avatar?: string;
   };
+  // likes for this comment
+  likes?: ILike[];
+  // nested replies
+  replies?: IComment[];
 }
 
 export interface ICommentForm {
@@ -33,7 +37,8 @@ export interface ICommentForm {
 
 export interface ILike {
   id: string;
-  postId: string;
+  postId?: string;
+  commentId?: string;
   userId: string; 
 }
 

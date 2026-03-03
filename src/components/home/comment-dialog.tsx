@@ -2,7 +2,7 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useForm } from "react-hook-form";
 import { useRef, useState } from "react";
-import type { IPost, IPostForm } from "@/types/post.type";
+import type { IPost, IPostForm, ICommentForm } from "@/types/post.type";
 import { upload } from "../../services/upload";
 import { createComment } from "@/services/post.service";
 import { CircleEllipsis, ImagePlus, SmilePlus, X } from "lucide-react";
@@ -15,11 +15,12 @@ interface CommentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   posts?: IPost;
+  commentId?: string;
 }
 
-export function CommentDialog({ open, onOpenChange, posts }: CommentDialogProps) {
+export function CommentDialog({ open, onOpenChange, posts, commentId }: CommentDialogProps) {
   const [auth] = useAtom(atomAuth);
-  const { register, handleSubmit } = useForm<IPostForm>();
+  const { register, handleSubmit } = useForm<ICommentForm>();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -33,19 +34,17 @@ export function CommentDialog({ open, onOpenChange, posts }: CommentDialogProps)
     setSelectedImages((prev) => [...prev, ...files]);
   };
 
-  const onSubmit = async (data: IPostForm) => {
+  const onSubmit = async (data: ICommentForm) => {
     const images: string[] = [];
     for (const file of selectedImages) {
       const uploaded = await upload(file);
       images.push(uploaded.secure_url);
     }
-    const comment = {
+    const comment: ICommentForm = {
       content: data.content,
-      images: images,
-      createAt: new Date(),
-      topic: data.topic,
-      postId: posts?.id,
-      userId: auth?.user?.id,
+      postId: posts?.id || "",
+      userId: auth?.user?.id || "",
+      parentId: commentId || null,
     };
     createComment(comment);
     onOpenChange(false);
