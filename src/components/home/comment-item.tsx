@@ -9,20 +9,19 @@ import {
   MoreHorizontal,
   Repeat,
   Share,
-  User,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
-import type { IComment } from "@/types/post.type";
+import type { IPost } from "@/types/post.type";
 import { useNavigate } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem , DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useAtom } from "jotai";
 import { atomAuth } from "@/stores/auth";
 import { useState } from "react";
-import { likeComment, deleteLikeComment } from "@/services/comment.service";
+import { likePost, deleteLikePost } from "@/services/post.service";
 
 interface CommentItemProps {
-  comment: IComment;
-  setCommentPost: (comment: IComment) => void;
+  comment: IPost;
+  setCommentPost: (comment: IPost) => void;
   setIsCommentOpen: (open: boolean) => void;
   level?: number;
 }
@@ -48,16 +47,16 @@ const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: C
     setLiked(!prevLiked);
     setLikeCount((c) => (prevLiked ? c - 1 : c + 1));
     setIsPending(true);
-
+ 
     try {
       if (prevLiked && likeId) {
-        await deleteLikeComment(likeId);
+        await deleteLikePost(likeId);
         setLikeId(null);
       } else {
-        const data = await likeComment(comment.id, auth.user.id);
+        const data = await likePost(comment.id, auth.user.id);
         setLikeId(data.data.id);
       }
-    } catch (err) {
+    } catch {
       setLiked(prevLiked);
       setLikeCount(prevCount);
       setLikeId(prevLikeId);
@@ -66,8 +65,11 @@ const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: C
     }
   };
 
+  // Get the root post ID for navigation
+  const rootPostId = comment.rootId || comment.postId || comment.id;
+
   return (
-    <div className={cn( level > 0 && "ml-8 border-l-2 border-muted pl-4")}>
+    <div className={cn( level > 0 && "border-muted pl-4 border-b")}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -75,9 +77,9 @@ const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: C
               <AvatarImage src={comment.user?.avatar} />
               <AvatarFallback>{comment.user.username}</AvatarFallback>
             </Avatar>
-            <div className="cursor-pointer">
+            <div className="cursor-pointer flex items-start justify-start">
               <p className="font-semibold text-sm">{comment.user?.username ?? comment.userId}</p>
-              <p className="text-xs text-muted-foreground ">
+              <p className="text-xs text-muted-foreground">
                 {new Date(comment.createdAt).toLocaleDateString("vi-VN")}
               </p>
             </div>
@@ -113,12 +115,12 @@ const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: C
         onClick={() =>
           navigate({
             to: "/$userName/post/$postId",
-            params: { userName: comment.user?.username ?? comment.userId, postId: comment.postId },
+            params: { userName: comment.user?.username ?? comment.userId, postId: rootPostId },
           })
         }
         className="pt-0 pb-0 cursor-pointer"
       >
-        <p className="border-l pl-4 border-black text-sm mb-3 leading-relaxed whitespace-pre-line">
+        <p className="pl-4 border-black text-sm mb-3 leading-relaxed whitespace-pre-line">
           {comment.content}
         </p>
         <PhotoProvider>
@@ -139,7 +141,7 @@ const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: C
         </PhotoProvider>
       </CardContent>
       <div className="flex items-center justify-between px-4">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-0">
           <Button
             onClick={handleLike}
             variant="ghost"
@@ -183,7 +185,7 @@ const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: C
 
       {/* Nested Replies */}
       {comment.replies && comment.replies.length > 0 && (
-        <div className="mt-4">
+        <div>
           {comment.replies.map((reply) => (
             <CommentItem
               key={reply.id}
@@ -196,7 +198,7 @@ const CommentItem = ({ comment, setCommentPost, setIsCommentOpen, level = 0 }: C
         </div>
       )}
     </div>
-  );
+  ); 
 };
 
 export default CommentItem;

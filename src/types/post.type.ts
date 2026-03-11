@@ -4,35 +4,39 @@ export interface IPost {
   content: string;
   images: string[];
   createdAt: string;
-  comments?: IComment[];
-  user:IUser
-  topic:string;
+  // For comments - if null, it's a root post. If has value, it's a comment/reply
+  parentId: string | null;
+  // Reference to the root post (for nested replies)
+  rootId: string | null;
+  // Reference to original post (for comments)
+  postId?: string;
+  comments?: IPost[];
+  // nested replies (for comments)
+  replies?: IPost[];
+  user: IUser;
+  topic: string;
   likes?: ILike[];
+  posts:IPost[]
 }
-export interface IComment {
+
+export interface IRepost {
   id: string;
   postId: string;
   userId: string;
-  content: string;
   createdAt: string;
-  images:string[]
-  parentId?: string | null;
-  user: {
-    id: string;
-    username: string;
-    avatar?: string;
-  };
-  // likes for this comment
-  likes?: ILike[];
-  // nested replies
-  replies?: IComment[];
+  post?: IPost;
+  user?: IUser;
 }
+
+// IComment is now an alias for IPost (for backward compatibility)
+export type IComment = IPost;
 
 export interface ICommentForm {
   postId: string;
   userId: string;
   content: string;
   parentId?: string | null;
+  rootId?: string | null;
 }
 
 export interface ILike {
@@ -51,6 +55,7 @@ export interface IFollow {
 
 export interface IUser {
   id: string;
+  name?: string;
   username: string;
   avatar: string;
   email: string;
@@ -63,3 +68,4 @@ export type IRegister = Pick<IUser, "email" | "password" | "username">;
 export type ILogin = Pick<IUser, "email" | "password">;
 
 export type IPostForm = Pick<IPost, "content" | "images" | "topic">;
+

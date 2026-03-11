@@ -5,25 +5,31 @@
       "content": "22",
       "images": [],
       "createdAt": "2026-02-03T07:05:22.185Z",
-      "userId": "u1"
+      "userId": "u1",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "id": "1edb",
       "content": "213113",
       "images": [],
       "createdAt": "2026-02-03T07:10:18.013Z",
-      "userId": "u2"
+      "userId": "u2",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "id": "a4d3",
-      "content": "",
+      "content": "232131",
       "images": [
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770110022/Screenshot_2025-11-28_095050_h4tky1.png",
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770110023/Screenshot_2025-11-28_135336_o1pr3i.png",
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770110024/Screenshot_2025-12-01_142002_tfcugu.png"
       ],
       "createdAt": "2026-02-03T09:13:44.492Z",
-      "userId": "u3"
+      "userId": "u3",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "id": "9163",
@@ -34,11 +40,13 @@
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113582/Screenshot_2025-11-25_164447_c5cvwz.png"
       ],
       "createdAt": "2026-02-03T10:13:02.379Z",
-      "userId": "u1"
+      "userId": "u1",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "id": "07f0",
-      "content": "",
+      "content": "321321321",
       "images": [
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113933/Screenshot_2025-11-25_144447_-_Copy_jbyfig.png",
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113934/Screenshot_2025-11-25_144447_tnues7.png",
@@ -49,50 +57,177 @@
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770113939/Screenshot_2025-11-25_164447_iow1dm.png"
       ],
       "createdAt": "2026-02-03T10:18:59.726Z",
-      "userId": "zzGkWnl"
+      "userId": "zzGkWnl",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "id": "8881",
-      "content": "",
+      "content": "22222",
       "images": [
         "https://res.cloudinary.com/dydx9nixm/image/upload/v1770115087/Screenshot_2025-11-25_164447_fzubm4.png"
       ],
       "createdAt": "2026-02-03T10:38:07.661Z",
-      "userId": "u3"
+      "userId": "u3",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "content": "321321",
       "images": [],
       "createdAt": "2026-02-06T10:48:18.611Z",
       "id": "Qy9Y4rb",
-      "userId": "u2"
+      "userId": "u2",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "userId": "zzGkWnl",
       "content": "2313",
       "images": [],
       "createdAt": "2026-02-06T10:49:57.116Z",
-      "id": "S0deSMT"
+      "id": "S0deSMT",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "userId": "zzGkWnl",
       "content": "213231",
       "images": [],
       "createdAt": "2026-02-11T02:47:04.392Z",
-      "id": "NZLtTFr"
+      "id": "NZLtTFr",
+      "parentId": "",
+      "rootId": ""
     },
     {
       "userId": "zzGkWnl",
       "content": "1234567",
       "images": [],
       "createdAt": "2026-02-11T02:49:53.933Z",
-      "id": "TaMjOuK"
+      "id": "TaMjOuK",
+      "parentId": "",
+      "rootId": ""
+    },
+    {
+      "id": "c1",
+      "postId": "9163",
+      "userId": "u1",
+      "content": "This is a comment on post 9163",
+      "images": [],
+      "createdAt": "2026-02-03T11:00:00.000Z",
+      "parentId": "9163",
+      "rootId": "9163"
+    },
+    {
+      "id": "c1-reply1",
+      "postId": "9163",
+      "userId": "u2",
+      "parentId": "c1",
+      "content": "Great comment! I agree with you",
+      "images": [],
+      "createdAt": "2026-02-03T11:15:00.000Z",
+      "rootId": "9163"
+    },
+    {
+      "id": "c1-reply2",
+      "postId": "9163",
+      "userId": "u3",
+      "parentId": "c1",
+      "content": "Interesting perspective!",
+      "images": [],
+      "createdAt": "2026-02-03T11:20:00.000Z",
+      "rootId": "9163"
+    },
+    {
+      "id": "c1-reply1-nested",
+      "postId": "9163",
+      "userId": "u1",
+      "parentId": "c1-reply1",
+      "content": "Thanks for your response!",
+      "images": [],
+      "createdAt": "2026-02-03T11:25:00.000Z",
+      "rootId": "9163"
+    },
+    {
+      "id": "75f5",
+      "content": "2321",
+      "userId": "u2",
+      "images": [],
+      "createdAt": "2026-02-04T10:09:18.847Z",
+      "postId": "4d10",
+      "parentId": "4d10",
+      "rootId": "4d10"
+    },
+    {
+      "id": "75f5-reply1",
+      "content": "Really nice post!",
+      "userId": "u1",
+      "images": [],
+      "createdAt": "2026-02-04T10:20:00.000Z",
+      "postId": "4d10",
+      "parentId": "75f5",
+      "rootId": "4d10"
+    },
+    {
+      "content": "23131",
+      "images": [],
+      "userId": "u2",
+      "createdAt": "2026-02-06T08:22:50.641Z",
+      "postId": "1edb",
+      "id": "n_bsyBp",
+      "parentId": "1edb",
+      "rootId": "1edb"
+    },
+    {
+      "content": "212321",
+      "images": [],
+      "createAt": "2026-02-26T07:46:25.524Z",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "id": "fqaW8Rk",
+      "parentId": "75f5",
+      "rootId": "4d10"
+    },
+    {
+      "content": "324",
+      "images": [],
+      "createAt": "2026-02-26T07:46:46.073Z",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "id": "rLhTnmy",
+      "parentId": "75f5",
+      "rootId": "4d10"
+    },
+    {
+      "content": "21312",
+      "postId": "4d10",
+      "userId": "zzGkWnl",
+      "parentId": "4d10",
+      "id": "_TPdT_Z",
+      "rootId": "4d10"
+    },
+    {
+      "content": "444",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "parentId": "75f5",
+      "id": "TzEuOF1",
+      "rootId": "4d10"
+    },
+    {
+      "content": "21231",
+      "postId": "75f5",
+      "userId": "zzGkWnl",
+      "parentId": "75f5",
+      "id": "HC17vXR",
+      "rootId": "4d10"
     }
   ],
   "users": [
     {
       "id": "u1",
       "username": "tonton_04",
+      "name": "Toàn Đẹp Trai",
       "avatar": "https://res.cloudinary.com/dydx9nixm/image/upload/v1770110022/Screenshot_2025-11-28_095050_h4tky1.png"
     },
     {
@@ -103,11 +238,13 @@
     {
       "id": "u3",
       "username": "banrau_toan",
+      "name": "Toàn Đẹp Nhất Vũ Trụ",
       "avatar": "https://res.cloudinary.com/dydx9nixm/image/upload/v1770115087/Screenshot_2025-11-25_164447_fzubm4.png"
     },
     {
       "email": "hello@gmail.com",
       "username": "hello",
+      "name": "Hello",
       "password": "$2a$10$fxVM46dTatfd8XLmHHZ4D.X.qYFCyrhrh5lPBTmtb9z3iWbaBoLni",
       "id": "qCtXaz0"
     },
@@ -117,106 +254,8 @@
       "username": "toantoan",
       "id": "zzGkWnl",
       "bio": "3213212\n213123222",
-      "avatar": "https://res.cloudinary.com/dydx9nixm/image/upload/v1770374265/Screenshot_2025-11-28_094718_r4xgiv.png"
-    }
-  ],
-  "comments": [
-    {
-      "id": "c1",
-      "postId": "9163",
-      "userId": "u1",
-      "content": "This is a comment on post 9163",
-      "images": [],
-      "createdAt": "2026-02-03T11:00:00.000Z"
-    },
-    {
-      "id": "c1-reply1",
-      "postId": "9163",
-      "userId": "u2",
-      "parentId": "c1",
-      "content": "Great comment! I agree with you",
-      "images": [],
-      "createdAt": "2026-02-03T11:15:00.000Z"
-    },
-    {
-      "id": "c1-reply2",
-      "postId": "9163",
-      "userId": "u3",
-      "parentId": "c1",
-      "content": "Interesting perspective!",
-      "images": [],
-      "createdAt": "2026-02-03T11:20:00.000Z"
-    },
-    {
-      "id": "c1-reply1-nested",
-      "postId": "9163",
-      "userId": "u1",
-      "parentId": "c1-reply1",
-      "content": "Thanks for your response!",
-      "images": [],
-      "createdAt": "2026-02-03T11:25:00.000Z"
-    },
-    {
-      "id": "75f5",
-      "content": "2321",
-      "userId": "u2",
-      "images": [],
-      "createdAt": "2026-02-04T10:09:18.847Z",
-      "postId": "4d10"
-    },
-    {
-      "id": "75f5-reply1",
-      "content": "Really nice post!",
-      "userId": "u1",
-      "images": [],
-      "createdAt": "2026-02-04T10:20:00.000Z",
-      "postId": "4d10",
-      "parentId": "75f5"
-    },
-    {
-      "content": "23131",
-      "images": [],
-      "userId": "u2",
-      "createdAt": "2026-02-06T08:22:50.641Z",
-      "postId": "1edb",
-      "id": "n_bsyBp"
-    },
-    {
-      "content": "212321",
-      "images": [],
-      "createAt": "2026-02-26T07:46:25.524Z",
-      "postId": "75f5",
-      "userId": "zzGkWnl",
-      "id": "fqaW8Rk"
-    },
-    {
-      "content": "324",
-      "images": [],
-      "createAt": "2026-02-26T07:46:46.073Z",
-      "postId": "75f5",
-      "userId": "zzGkWnl",
-      "id": "rLhTnmy"
-    },
-    {
-      "content": "21312",
-      "postId": "4d10",
-      "userId": "zzGkWnl",
-      "parentId": null,
-      "id": "_TPdT_Z"
-    },
-    {
-      "content": "444",
-      "postId": "75f5",
-      "userId": "zzGkWnl",
-      "parentId": null,
-      "id": "TzEuOF1"
-    },
-    {
-      "content": "21231",
-      "postId": "75f5",
-      "userId": "zzGkWnl",
-      "parentId": null,
-      "id": "HC17vXR"
+      "avatar": "https://res.cloudinary.com/dydx9nixm/image/upload/v1773136649/Screenshot_2026-01-26_171755_usenfv.png",
+      "name": "321321"
     }
   ],
   "likes": [
@@ -273,32 +312,32 @@
       "id": "Hqs64x-"
     },
     {
-      "commentId": "75f5",
+      "postId": "75f5",
       "userId": "zzGkWnl",
       "id": "wgpB7wV"
     },
     {
-      "commentId": "75f5",
+      "postId": "75f5",
       "userId": "zzGkWnl",
       "id": "Dz977Rz"
     },
     {
-      "commentId": "c1-reply1",
+      "postId": "c1-reply1",
       "userId": "u3",
       "id": "like-c1-reply1"
     },
     {
-      "commentId": "c1-reply2",
+      "postId": "c1-reply2",
       "userId": "u1",
       "id": "like-c1-reply2"
     },
     {
-      "commentId": "c1-reply1-nested",
+      "postId": "c1-reply1-nested",
       "userId": "u2",
       "id": "like-c1-reply1-nested"
     },
     {
-      "commentId": "75f5-reply1",
+      "postId": "75f5-reply1",
       "userId": "u2",
       "id": "like-75f5-reply1"
     },
@@ -318,6 +357,20 @@
       "followerId": "zzGkWnl",
       "followingId": "u3",
       "id": 2
+    }
+  ],
+  "reposts": [
+    {
+      "id": "rp1",
+      "postId": "4d10",
+      "userId": "zzGkWnl",
+      "createdAt": "2026-03-11T15:00:00.000Z"
+    },
+    {
+      "postId": "9163",
+      "userId": "zzGkWnl",
+      "createdAt": "2026-03-11T08:38:07.439Z",
+      "id": "qKIIUS3"
     }
   ]
 }

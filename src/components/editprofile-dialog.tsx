@@ -18,6 +18,7 @@ interface EditProfileDialogProps {
 }
 
 interface EditForm {
+  name: string;
   username: string;
   email: string;
   bio: string;
@@ -31,6 +32,7 @@ export function EditProfileDialog({
   const user = auth?.user ?? null;
   const { register, handleSubmit, setValue } = useForm<EditForm>({
     defaultValues: {
+      name: user?.name ?? "",
       username: user?.username ?? "",
       email: user?.email ?? "",
       bio: user?.bio ?? "",
@@ -43,6 +45,7 @@ export function EditProfileDialog({
 
   useEffect(() => {
     if (user) {
+      setValue("name", user.name ?? "");
       setValue("username", user.username);
       setValue("email", user.email);
       setValue("bio", user.bio ?? "");
@@ -68,6 +71,7 @@ export function EditProfileDialog({
         avatarUrl = uploaded.secure_url;
       }
       const payload: Partial<IUser> = {
+        name: data.name,
         username: data.username,
         email: data.email,
         bio: data.bio,
@@ -88,8 +92,10 @@ export function EditProfileDialog({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
           <div className="flex-1">
             <div className="flex justify-between">
-              <div className="">
-                <label className="text-sm font-medium">Username</label>
+              <div className="flex-1 mr-4">
+                <label className="text-sm font-medium">Name</label>
+                <Input {...register("name")} placeholder="Your display name" />
+                <label className="text-sm font-medium mt-2 block">Username</label>
                 <Input {...register("username", { required: true })} />
               </div>
               <div
@@ -103,7 +109,7 @@ export function EditProfileDialog({
                 role="button"
                 tabIndex={0}
                 aria-label="Thay ảnh đại diện"
-                className="w-16 h-16 rounded-full bg-black overflow-hidden cursor-pointer"
+                className="w-16 h-16 rounded-full bg-black overflow-hidden cursor-pointer shrink-0"
               >
                 <Avatar className="w-full h-full">
                   <AvatarImage src={preview ?? "/placeholder.svg"} />
@@ -111,7 +117,7 @@ export function EditProfileDialog({
                 </Avatar>
               </div>
             </div>
-            <label className="text-sm mt-2">Email</label>
+            <label className="text-sm mt-2 block">Email</label>
             <Input type="email" {...register("email", { required: true })} />
             <label className="text-sm mt-2">Bio</label>
             <Textarea {...register("bio")} />

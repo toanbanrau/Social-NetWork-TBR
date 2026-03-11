@@ -19,6 +19,8 @@ export const Route = createFileRoute('/auth')({
         }
       } catch (e) {
         // Nếu parse lỗi, cho phép ở lại trang auth
+        console.log(e);
+        
       }
     }
   },
@@ -68,7 +70,7 @@ function RouteComponent() {
       })
       toast.success('Đăng nhập thành công!')
       navigate({ to: '/' })
-    } catch (error: any) {
+    } catch (error:any) {
       toast.error(error.response?.data?.message || 'Thao tác thất bại')
     } finally {
       setIsLoading(false)

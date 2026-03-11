@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import cssApp from '../index.css?url'
 import {
   Outlet,
   HeadContent,
@@ -22,7 +23,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           title: "Social Network by Toàn Bán Rau",
         },
       ],
-      links: [{ rel: "stylesheet", href: "src/index.css" }],
+      links: [{ rel: "stylesheet", href: cssApp }],
     }),
     component: RootComponent,
   }

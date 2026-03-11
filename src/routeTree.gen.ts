@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as _layoutRouteImport } from './routes/__layout'
@@ -18,10 +20,15 @@ import { Route as _layoutGameRouteImport } from './routes/__layout/game'
 import { Route as _layoutChatRouteImport } from './routes/__layout/chat'
 import { Route as _layoutAboutRouteImport } from './routes/__layout/about'
 import { Route as _layoutActivytyIndexRouteImport } from './routes/__layout/activyty/index'
-import { Route as _layoutUserNameIndexRouteImport } from './routes/__layout/$userName/index'
+import { Route as _layoutUserName_layoutRouteImport } from './routes/__layout/$userName/__layout'
 import { Route as _layoutActivytyFollowsIndexRouteImport } from './routes/__layout/activyty/follows/index'
-import { Route as _layoutUserNamePostIndexRouteImport } from './routes/__layout/$userName/post/index'
+import { Route as _layoutUserName_layoutIndexRouteImport } from './routes/__layout/$userName/__layout/index'
 import { Route as _layoutUserNamePostPostIdRouteImport } from './routes/__layout/$userName/post/$postId'
+import { Route as _layoutUserName_layoutRepostsIndexRouteImport } from './routes/__layout/$userName/__layout/reposts/index'
+import { Route as _layoutUserName_layoutRepliesIndexRouteImport } from './routes/__layout/$userName/__layout/replies/index'
+import { Route as _layoutUserName_layoutMediaIndexRouteImport } from './routes/__layout/$userName/__layout/media/index'
+
+const _layoutUserNameRouteImport = createFileRoute('/__layout/$userName')()
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -31,6 +38,11 @@ const AuthRoute = AuthRouteImport.update({
 const _layoutRoute = _layoutRouteImport.update({
   id: '/__layout',
   getParentRoute: () => rootRouteImport,
+} as any)
+const _layoutUserNameRoute = _layoutUserNameRouteImport.update({
+  id: '/$userName',
+  path: '/$userName',
+  getParentRoute: () => _layoutRoute,
 } as any)
 const _layoutIndexRoute = _layoutIndexRouteImport.update({
   id: '/',
@@ -67,10 +79,9 @@ const _layoutActivytyIndexRoute = _layoutActivytyIndexRouteImport.update({
   path: '/activyty/',
   getParentRoute: () => _layoutRoute,
 } as any)
-const _layoutUserNameIndexRoute = _layoutUserNameIndexRouteImport.update({
-  id: '/$userName/',
-  path: '/$userName/',
-  getParentRoute: () => _layoutRoute,
+const _layoutUserName_layoutRoute = _layoutUserName_layoutRouteImport.update({
+  id: '/__layout',
+  getParentRoute: () => _layoutUserNameRoute,
 } as any)
 const _layoutActivytyFollowsIndexRoute =
   _layoutActivytyFollowsIndexRouteImport.update({
@@ -78,17 +89,35 @@ const _layoutActivytyFollowsIndexRoute =
     path: '/activyty/follows/',
     getParentRoute: () => _layoutRoute,
   } as any)
-const _layoutUserNamePostIndexRoute =
-  _layoutUserNamePostIndexRouteImport.update({
-    id: '/$userName/post/',
-    path: '/$userName/post/',
-    getParentRoute: () => _layoutRoute,
+const _layoutUserName_layoutIndexRoute =
+  _layoutUserName_layoutIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => _layoutUserName_layoutRoute,
   } as any)
 const _layoutUserNamePostPostIdRoute =
   _layoutUserNamePostPostIdRouteImport.update({
-    id: '/$userName/post/$postId',
-    path: '/$userName/post/$postId',
-    getParentRoute: () => _layoutRoute,
+    id: '/post/$postId',
+    path: '/post/$postId',
+    getParentRoute: () => _layoutUserNameRoute,
+  } as any)
+const _layoutUserName_layoutRepostsIndexRoute =
+  _layoutUserName_layoutRepostsIndexRouteImport.update({
+    id: '/reposts/',
+    path: '/reposts/',
+    getParentRoute: () => _layoutUserName_layoutRoute,
+  } as any)
+const _layoutUserName_layoutRepliesIndexRoute =
+  _layoutUserName_layoutRepliesIndexRouteImport.update({
+    id: '/replies/',
+    path: '/replies/',
+    getParentRoute: () => _layoutUserName_layoutRoute,
+  } as any)
+const _layoutUserName_layoutMediaIndexRoute =
+  _layoutUserName_layoutMediaIndexRouteImport.update({
+    id: '/media/',
+    path: '/media/',
+    getParentRoute: () => _layoutUserName_layoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -99,11 +128,14 @@ export interface FileRoutesByFullPath {
   '/insights': typeof _layoutInsightsRoute
   '/search': typeof _layoutSearchRoute
   '/': typeof _layoutIndexRoute
-  '/$userName': typeof _layoutUserNameIndexRoute
+  '/$userName': typeof _layoutUserName_layoutRouteWithChildren
   '/activyty': typeof _layoutActivytyIndexRoute
   '/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
-  '/$userName/post': typeof _layoutUserNamePostIndexRoute
+  '/$userName/': typeof _layoutUserName_layoutIndexRoute
   '/activyty/follows': typeof _layoutActivytyFollowsIndexRoute
+  '/$userName/media': typeof _layoutUserName_layoutMediaIndexRoute
+  '/$userName/replies': typeof _layoutUserName_layoutRepliesIndexRoute
+  '/$userName/reposts': typeof _layoutUserName_layoutRepostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
@@ -113,11 +145,13 @@ export interface FileRoutesByTo {
   '/insights': typeof _layoutInsightsRoute
   '/search': typeof _layoutSearchRoute
   '/': typeof _layoutIndexRoute
-  '/$userName': typeof _layoutUserNameIndexRoute
+  '/$userName': typeof _layoutUserName_layoutIndexRoute
   '/activyty': typeof _layoutActivytyIndexRoute
   '/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
-  '/$userName/post': typeof _layoutUserNamePostIndexRoute
   '/activyty/follows': typeof _layoutActivytyFollowsIndexRoute
+  '/$userName/media': typeof _layoutUserName_layoutMediaIndexRoute
+  '/$userName/replies': typeof _layoutUserName_layoutRepliesIndexRoute
+  '/$userName/reposts': typeof _layoutUserName_layoutRepostsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -129,11 +163,15 @@ export interface FileRoutesById {
   '/__layout/insights': typeof _layoutInsightsRoute
   '/__layout/search': typeof _layoutSearchRoute
   '/__layout/': typeof _layoutIndexRoute
-  '/__layout/$userName/': typeof _layoutUserNameIndexRoute
+  '/__layout/$userName': typeof _layoutUserNameRouteWithChildren
+  '/__layout/$userName/__layout': typeof _layoutUserName_layoutRouteWithChildren
   '/__layout/activyty/': typeof _layoutActivytyIndexRoute
   '/__layout/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
-  '/__layout/$userName/post/': typeof _layoutUserNamePostIndexRoute
+  '/__layout/$userName/__layout/': typeof _layoutUserName_layoutIndexRoute
   '/__layout/activyty/follows/': typeof _layoutActivytyFollowsIndexRoute
+  '/__layout/$userName/__layout/media/': typeof _layoutUserName_layoutMediaIndexRoute
+  '/__layout/$userName/__layout/replies/': typeof _layoutUserName_layoutRepliesIndexRoute
+  '/__layout/$userName/__layout/reposts/': typeof _layoutUserName_layoutRepostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -148,8 +186,11 @@ export interface FileRouteTypes {
     | '/$userName'
     | '/activyty'
     | '/$userName/post/$postId'
-    | '/$userName/post'
+    | '/$userName/'
     | '/activyty/follows'
+    | '/$userName/media'
+    | '/$userName/replies'
+    | '/$userName/reposts'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -162,8 +203,10 @@ export interface FileRouteTypes {
     | '/$userName'
     | '/activyty'
     | '/$userName/post/$postId'
-    | '/$userName/post'
     | '/activyty/follows'
+    | '/$userName/media'
+    | '/$userName/replies'
+    | '/$userName/reposts'
   id:
     | '__root__'
     | '/__layout'
@@ -174,11 +217,15 @@ export interface FileRouteTypes {
     | '/__layout/insights'
     | '/__layout/search'
     | '/__layout/'
-    | '/__layout/$userName/'
+    | '/__layout/$userName'
+    | '/__layout/$userName/__layout'
     | '/__layout/activyty/'
     | '/__layout/$userName/post/$postId'
-    | '/__layout/$userName/post/'
+    | '/__layout/$userName/__layout/'
     | '/__layout/activyty/follows/'
+    | '/__layout/$userName/__layout/media/'
+    | '/__layout/$userName/__layout/replies/'
+    | '/__layout/$userName/__layout/reposts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -201,6 +248,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof _layoutRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/__layout/$userName': {
+      id: '/__layout/$userName'
+      path: '/$userName'
+      fullPath: '/$userName'
+      preLoaderRoute: typeof _layoutUserNameRouteImport
+      parentRoute: typeof _layoutRoute
     }
     '/__layout/': {
       id: '/__layout/'
@@ -251,12 +305,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutActivytyIndexRouteImport
       parentRoute: typeof _layoutRoute
     }
-    '/__layout/$userName/': {
-      id: '/__layout/$userName/'
+    '/__layout/$userName/__layout': {
+      id: '/__layout/$userName/__layout'
       path: '/$userName'
       fullPath: '/$userName'
-      preLoaderRoute: typeof _layoutUserNameIndexRouteImport
-      parentRoute: typeof _layoutRoute
+      preLoaderRoute: typeof _layoutUserName_layoutRouteImport
+      parentRoute: typeof _layoutUserNameRoute
     }
     '/__layout/activyty/follows/': {
       id: '/__layout/activyty/follows/'
@@ -265,22 +319,80 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutActivytyFollowsIndexRouteImport
       parentRoute: typeof _layoutRoute
     }
-    '/__layout/$userName/post/': {
-      id: '/__layout/$userName/post/'
-      path: '/$userName/post'
-      fullPath: '/$userName/post'
-      preLoaderRoute: typeof _layoutUserNamePostIndexRouteImport
-      parentRoute: typeof _layoutRoute
+    '/__layout/$userName/__layout/': {
+      id: '/__layout/$userName/__layout/'
+      path: '/'
+      fullPath: '/$userName/'
+      preLoaderRoute: typeof _layoutUserName_layoutIndexRouteImport
+      parentRoute: typeof _layoutUserName_layoutRoute
     }
     '/__layout/$userName/post/$postId': {
       id: '/__layout/$userName/post/$postId'
-      path: '/$userName/post/$postId'
+      path: '/post/$postId'
       fullPath: '/$userName/post/$postId'
       preLoaderRoute: typeof _layoutUserNamePostPostIdRouteImport
-      parentRoute: typeof _layoutRoute
+      parentRoute: typeof _layoutUserNameRoute
+    }
+    '/__layout/$userName/__layout/reposts/': {
+      id: '/__layout/$userName/__layout/reposts/'
+      path: '/reposts'
+      fullPath: '/$userName/reposts'
+      preLoaderRoute: typeof _layoutUserName_layoutRepostsIndexRouteImport
+      parentRoute: typeof _layoutUserName_layoutRoute
+    }
+    '/__layout/$userName/__layout/replies/': {
+      id: '/__layout/$userName/__layout/replies/'
+      path: '/replies'
+      fullPath: '/$userName/replies'
+      preLoaderRoute: typeof _layoutUserName_layoutRepliesIndexRouteImport
+      parentRoute: typeof _layoutUserName_layoutRoute
+    }
+    '/__layout/$userName/__layout/media/': {
+      id: '/__layout/$userName/__layout/media/'
+      path: '/media'
+      fullPath: '/$userName/media'
+      preLoaderRoute: typeof _layoutUserName_layoutMediaIndexRouteImport
+      parentRoute: typeof _layoutUserName_layoutRoute
     }
   }
 }
+
+interface _layoutUserName_layoutRouteChildren {
+  _layoutUserName_layoutIndexRoute: typeof _layoutUserName_layoutIndexRoute
+  _layoutUserName_layoutMediaIndexRoute: typeof _layoutUserName_layoutMediaIndexRoute
+  _layoutUserName_layoutRepliesIndexRoute: typeof _layoutUserName_layoutRepliesIndexRoute
+  _layoutUserName_layoutRepostsIndexRoute: typeof _layoutUserName_layoutRepostsIndexRoute
+}
+
+const _layoutUserName_layoutRouteChildren: _layoutUserName_layoutRouteChildren =
+  {
+    _layoutUserName_layoutIndexRoute: _layoutUserName_layoutIndexRoute,
+    _layoutUserName_layoutMediaIndexRoute:
+      _layoutUserName_layoutMediaIndexRoute,
+    _layoutUserName_layoutRepliesIndexRoute:
+      _layoutUserName_layoutRepliesIndexRoute,
+    _layoutUserName_layoutRepostsIndexRoute:
+      _layoutUserName_layoutRepostsIndexRoute,
+  }
+
+const _layoutUserName_layoutRouteWithChildren =
+  _layoutUserName_layoutRoute._addFileChildren(
+    _layoutUserName_layoutRouteChildren,
+  )
+
+interface _layoutUserNameRouteChildren {
+  _layoutUserName_layoutRoute: typeof _layoutUserName_layoutRouteWithChildren
+  _layoutUserNamePostPostIdRoute: typeof _layoutUserNamePostPostIdRoute
+}
+
+const _layoutUserNameRouteChildren: _layoutUserNameRouteChildren = {
+  _layoutUserName_layoutRoute: _layoutUserName_layoutRouteWithChildren,
+  _layoutUserNamePostPostIdRoute: _layoutUserNamePostPostIdRoute,
+}
+
+const _layoutUserNameRouteWithChildren = _layoutUserNameRoute._addFileChildren(
+  _layoutUserNameRouteChildren,
+)
 
 interface _layoutRouteChildren {
   _layoutAboutRoute: typeof _layoutAboutRoute
@@ -289,10 +401,8 @@ interface _layoutRouteChildren {
   _layoutInsightsRoute: typeof _layoutInsightsRoute
   _layoutSearchRoute: typeof _layoutSearchRoute
   _layoutIndexRoute: typeof _layoutIndexRoute
-  _layoutUserNameIndexRoute: typeof _layoutUserNameIndexRoute
+  _layoutUserNameRoute: typeof _layoutUserNameRouteWithChildren
   _layoutActivytyIndexRoute: typeof _layoutActivytyIndexRoute
-  _layoutUserNamePostPostIdRoute: typeof _layoutUserNamePostPostIdRoute
-  _layoutUserNamePostIndexRoute: typeof _layoutUserNamePostIndexRoute
   _layoutActivytyFollowsIndexRoute: typeof _layoutActivytyFollowsIndexRoute
 }
 
@@ -303,10 +413,8 @@ const _layoutRouteChildren: _layoutRouteChildren = {
   _layoutInsightsRoute: _layoutInsightsRoute,
   _layoutSearchRoute: _layoutSearchRoute,
   _layoutIndexRoute: _layoutIndexRoute,
-  _layoutUserNameIndexRoute: _layoutUserNameIndexRoute,
+  _layoutUserNameRoute: _layoutUserNameRouteWithChildren,
   _layoutActivytyIndexRoute: _layoutActivytyIndexRoute,
-  _layoutUserNamePostPostIdRoute: _layoutUserNamePostPostIdRoute,
-  _layoutUserNamePostIndexRoute: _layoutUserNamePostIndexRoute,
   _layoutActivytyFollowsIndexRoute: _layoutActivytyFollowsIndexRoute,
 }
 

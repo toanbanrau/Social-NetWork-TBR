@@ -2,7 +2,7 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useForm } from "react-hook-form";
 import { useRef, useState } from "react";
-import type { IPost, IPostForm, ICommentForm } from "@/types/post.type";
+import type { IPost, ICommentForm } from "@/types/post.type";
 import { upload } from "../../services/upload";
 import { createComment } from "@/services/post.service";
 import { CircleEllipsis, ImagePlus, SmilePlus, X } from "lucide-react";
@@ -40,11 +40,13 @@ export function CommentDialog({ open, onOpenChange, posts, commentId }: CommentD
       const uploaded = await upload(file);
       images.push(uploaded.secure_url);
     }
+    const postId = posts?.id || "";
     const comment: ICommentForm = {
       content: data.content,
-      postId: posts?.id || "",
+      postId: postId,
       userId: auth?.user?.id || "",
-      parentId: commentId || null,
+      parentId: commentId || postId,
+      rootId: posts?.rootId || postId,
     };
     createComment(comment);
     onOpenChange(false);
