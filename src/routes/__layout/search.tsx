@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import useDebounce from "@/hooks/use-debound";
-import { useSearchUsers } from "@/services/auth.service";
+import { useGetSuggestedUsers, useSearchUsers } from "@/services/auth.service";
 import { checkFollow, deleteFollow, postFollow } from "@/services/follower.service";
 import { atomAuth } from "@/stores/auth";
 import { cn } from "@/lib/utils";
@@ -87,9 +87,15 @@ const UserItem = ({ item }: { item: IUser }) => {
 };
 
 function RouteComponent() {
+  const [auth] = useAtom(atomAuth);
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 300);
-  const { data: users, isPending } = useSearchUsers(debouncedQuery);
+  
+  const { data: searchResults, isPending: isSearchPending } = useSearchUsers(debouncedQuery);
+  const { data: suggestedUsers, isPending: isSuggestedPending } = useGetSuggestedUsers(auth.user?.id || "");
+
+  const users = debouncedQuery ? searchResults : suggestedUsers;
+  const isPending = debouncedQuery ? isSearchPending : isSuggestedPending;
 
   return (
     <div className="max-w-2xl w-full border rounded-2xl">

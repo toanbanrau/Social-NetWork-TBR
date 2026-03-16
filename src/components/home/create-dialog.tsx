@@ -2,14 +2,16 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useForm } from "react-hook-form";
 import { useRef, useState } from "react";
+import EmojiPicker from "emoji-picker-react";
 import type { IPostForm } from "@/types/post.type";
 import { upload } from "../../services/upload";
 import { creatPosts } from "@/services/post.service";
 import { CircleEllipsis, ImagePlus, SmilePlus, X } from "lucide-react";
-import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { atomAuth } from "@/stores/auth";
 import { useAtom } from "jotai";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 interface CreateDialogProps {
   open: boolean;
@@ -18,8 +20,10 @@ interface CreateDialogProps {
 
 export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
   const [auth] = useAtom(atomAuth);
-  const { register, handleSubmit } = useForm<IPostForm>();
+  const { register, handleSubmit, setValue, getValues, reset } = useForm<IPostForm>();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const queryClient = useQueryClient();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleChooseImage = () => {
@@ -31,6 +35,26 @@ export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
     const files = Array.from(e.target.files);
     setSelectedImages((prev) => [...prev, ...files]);
   };
+
+  const onEmojiClick = (emojiObject: { emoji: string }) => {
+    const currentContent = getValues("content") || "";
+    setValue("content", currentContent + emojiObject.emoji);
+    setShowEmojiPicker(false);
+  };
+
+  const createPostMutation = useMutation({
+    mutationFn: creatPosts,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      onOpenChange(false);
+      setSelectedImages([]);
+      reset();
+      toast.success("Bài viết đã được đăng thành công!");
+    },
+    onError: () => {
+      toast.error("Có lỗi xảy ra khi đăng bài. Vui lòng thử lại!");
+    }
+  });
 
   const onSubmit = async (data: IPostForm) => {
     const images: string[] = [];
@@ -45,9 +69,8 @@ export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
       createdAt: new Date(),
       topic: data.topic,
     };
-    creatPosts(post);
-    onOpenChange(false);
-    setSelectedImages([]);
+    
+    createPostMutation.mutate(post as any);
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -59,14 +82,17 @@ export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} action="">
           <div className="flex gap-3">
-            <Avatar>
-              <AvatarImage src={auth.user?.avatar} />
-              <AvatarFallback>B</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-1 flex-col n">
-              <div className="flex items-center">
+            <div className="flex flex-col items-center gap-2">
+              <Avatar>
+                <AvatarImage src={auth.user?.avatar} />
+                <AvatarFallback>B</AvatarFallback>
+              </Avatar>
+              <div className="border h-full"></div>
+            </div>
+            <div className="flex flex-1 flex-col items-start">
+              <div className="flex gap-2 items-center">
                 <p className="font-medium text-base">{auth?.user?.username}</p>
-                <Input
+                <input
                   className="shadow-none border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                   placeholder="Add topic"
                 />
@@ -82,8 +108,15 @@ export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
                 }}
               />
               <div className="flex items-center gap-2">
-                <ImagePlus className="w-4 h-4" onClick={handleChooseImage} />
-                <SmilePlus className="w-4 h-4" />
+                <ImagePlus className="w-4 h-4 cursor-pointer" onClick={handleChooseImage} />
+                <div className="relative">
+                  <SmilePlus className="w-4 h-4 cursor-pointer" onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
+                  {showEmojiPicker && (
+                    <div className="absolute top-6 left-0 z-50">
+                      <EmojiPicker onEmojiClick={onEmojiClick} width={300} height={400} />
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="relative flex gap-2 mt-2 overflow-x-auto w-full max-w-xl">
                 {selectedImages.map((file, index) => (
@@ -110,8 +143,12 @@ export function CreateDialog({ open, onOpenChange }: CreateDialogProps) {
             </div>
           </div>
           <div className="flex justify-end">
-            <button type="submit" className="border px-4 py-2 rounded-md font-medium">
-              Post
+            <button 
+              type="submit" 
+              className="border px-4 py-2 rounded-md font-medium disabled:opacity-50"
+              disabled={createPostMutation.isPending}
+            >
+              {createPostMutation.isPending ? "Posting..." : "Post"}
             </button>
           </div>
           <input

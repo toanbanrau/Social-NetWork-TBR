@@ -74,8 +74,8 @@ export const useGetPostById = (id: string) => {
 export const creatPosts = async (formdata: IPostForm) => {
   const { data } = await axiosIntance.post("/posts", {
     ...formdata,
-    parentId: null,
-    rootId: null,
+    parentId: "",
+    rootId: "",
   });
   return data;
 };

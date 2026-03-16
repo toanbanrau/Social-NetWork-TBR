@@ -4,6 +4,8 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/__layout')({
   beforeLoad: () => {
+    if (typeof localStorage === 'undefined') return
+
     const authData = localStorage.getItem('auth')
     if (!authData) {
       throw redirect({ to: '/auth' })

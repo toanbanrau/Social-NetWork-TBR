@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { User } from "lucide-react";
 
-export const Route = createFileRoute("/__layout/activyty/follows/")({
+export const Route = createFileRoute("/__layout/activity/follows/")({
   component: RouteComponent,
 });
 

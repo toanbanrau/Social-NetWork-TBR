@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { atomAuth } from "@/stores/auth";
 import { useState } from "react";
 import { getRelativeTime } from "@/utils/date";
+import { toast } from "sonner";
 
 interface PostItemProps {
   post: IPost;
@@ -48,6 +49,12 @@ const PostItem = ({
   const [isPending, setIsPending] = useState(false);
   const currentLike = post.likes?.find((like) => like.userId === auth.user?.id);
   const [likeId, setLikeId] = useState<string | null>(currentLike?.id ?? null);
+  const [isExpanded, 
+    
+
+    
+  ] = useState(false);
+  const isLongContent = post.content ? (post.content.length > 150 || post.content.split('\n').length > 4) : false;
 
   // Repost logic
   const { data: userReposts, refetch: refetchReposts } = useGetRepostByUserAndPost(post.id, auth.user?.id || "");
@@ -83,6 +90,28 @@ const PostItem = ({
       setIsPending(false);
     }
   };
+
+  const handleShare = async () => {
+    try {
+      const shareUrl = `${window.location.origin}/${post.user?.username}/post/${post.id}`;
+      
+      if (navigator.share) {
+        await navigator.share({
+          title: `Bài viết của ${post.user?.name || post.user?.username}`,
+          text: post.content.substring(0, 100) + (post.content.length > 100 ? '...' : ''),
+          url: shareUrl,
+        });
+      } else {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Đã copy liên kết bài viết!");
+      }
+    } catch (err) {
+      if ((err as Error).name !== 'AbortError') {
+        toast.error("Không thể chia sẻ liên kết!");
+      }
+    }
+  };
+
   return (
     <div className={cn(" px-5 py-4 flex flex-col", detail ? "" : "border-b")}>
       <div className="flex justify-between gap-1 px-1">
@@ -153,9 +182,22 @@ const PostItem = ({
               }
               className="pt-0 pb-0 cursor-pointer"
             >
-              <p className="text-sm leading-relaxed whitespace-pre-line">
-                {post.content}
-              </p>
+              <div className="relative">
+                <p className={cn("text-sm leading-relaxed whitespace-pre-line", !isExpanded && isLongContent && "line-clamp-4")}>
+                  {post.content}
+                </p>
+                {isLongContent && !isExpanded && (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsExpanded(true);
+                    }}
+                    className="text-muted-foreground text-sm hover:underline cursor-pointer font-medium inline-block mt-1"
+                  >
+                    Xem thêm
+                  </span>
+                )}
+              </div>
               {post.images.length > 0 && (
                 <PhotoProvider>
                   <div className="flex overflow-x-auto gap-4 rouded-sm py-1">
@@ -270,6 +312,7 @@ const PostItem = ({
           <Repeat className={cn("h-4 w-4", hasReposted && "text-green-500")} />
         </Button>
         <Button
+          onClick={handleShare}
           variant="ghost"
           size="sm"
           className="flex items-center gap-2 text-muted-foreground hover:text-foreground"

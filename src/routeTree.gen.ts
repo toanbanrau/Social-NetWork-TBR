@@ -19,9 +19,9 @@ import { Route as _layoutInsightsRouteImport } from './routes/__layout/insights'
 import { Route as _layoutGameRouteImport } from './routes/__layout/game'
 import { Route as _layoutChatRouteImport } from './routes/__layout/chat'
 import { Route as _layoutAboutRouteImport } from './routes/__layout/about'
-import { Route as _layoutActivytyIndexRouteImport } from './routes/__layout/activyty/index'
+import { Route as _layoutActivityIndexRouteImport } from './routes/__layout/activity/index'
 import { Route as _layoutUserName_layoutRouteImport } from './routes/__layout/$userName/__layout'
-import { Route as _layoutActivytyFollowsIndexRouteImport } from './routes/__layout/activyty/follows/index'
+import { Route as _layoutActivityFollowsIndexRouteImport } from './routes/__layout/activity/follows/index'
 import { Route as _layoutUserName_layoutIndexRouteImport } from './routes/__layout/$userName/__layout/index'
 import { Route as _layoutUserNamePostPostIdRouteImport } from './routes/__layout/$userName/post/$postId'
 import { Route as _layoutUserName_layoutRepostsIndexRouteImport } from './routes/__layout/$userName/__layout/reposts/index'
@@ -74,19 +74,19 @@ const _layoutAboutRoute = _layoutAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => _layoutRoute,
 } as any)
-const _layoutActivytyIndexRoute = _layoutActivytyIndexRouteImport.update({
-  id: '/activyty/',
-  path: '/activyty/',
+const _layoutActivityIndexRoute = _layoutActivityIndexRouteImport.update({
+  id: '/activity/',
+  path: '/activity/',
   getParentRoute: () => _layoutRoute,
 } as any)
 const _layoutUserName_layoutRoute = _layoutUserName_layoutRouteImport.update({
   id: '/__layout',
   getParentRoute: () => _layoutUserNameRoute,
 } as any)
-const _layoutActivytyFollowsIndexRoute =
-  _layoutActivytyFollowsIndexRouteImport.update({
-    id: '/activyty/follows/',
-    path: '/activyty/follows/',
+const _layoutActivityFollowsIndexRoute =
+  _layoutActivityFollowsIndexRouteImport.update({
+    id: '/activity/follows/',
+    path: '/activity/follows/',
     getParentRoute: () => _layoutRoute,
   } as any)
 const _layoutUserName_layoutIndexRoute =
@@ -129,10 +129,10 @@ export interface FileRoutesByFullPath {
   '/search': typeof _layoutSearchRoute
   '/': typeof _layoutIndexRoute
   '/$userName': typeof _layoutUserName_layoutRouteWithChildren
-  '/activyty': typeof _layoutActivytyIndexRoute
+  '/activity': typeof _layoutActivityIndexRoute
   '/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
   '/$userName/': typeof _layoutUserName_layoutIndexRoute
-  '/activyty/follows': typeof _layoutActivytyFollowsIndexRoute
+  '/activity/follows': typeof _layoutActivityFollowsIndexRoute
   '/$userName/media': typeof _layoutUserName_layoutMediaIndexRoute
   '/$userName/replies': typeof _layoutUserName_layoutRepliesIndexRoute
   '/$userName/reposts': typeof _layoutUserName_layoutRepostsIndexRoute
@@ -146,9 +146,9 @@ export interface FileRoutesByTo {
   '/search': typeof _layoutSearchRoute
   '/': typeof _layoutIndexRoute
   '/$userName': typeof _layoutUserName_layoutIndexRoute
-  '/activyty': typeof _layoutActivytyIndexRoute
+  '/activity': typeof _layoutActivityIndexRoute
   '/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
-  '/activyty/follows': typeof _layoutActivytyFollowsIndexRoute
+  '/activity/follows': typeof _layoutActivityFollowsIndexRoute
   '/$userName/media': typeof _layoutUserName_layoutMediaIndexRoute
   '/$userName/replies': typeof _layoutUserName_layoutRepliesIndexRoute
   '/$userName/reposts': typeof _layoutUserName_layoutRepostsIndexRoute
@@ -165,10 +165,10 @@ export interface FileRoutesById {
   '/__layout/': typeof _layoutIndexRoute
   '/__layout/$userName': typeof _layoutUserNameRouteWithChildren
   '/__layout/$userName/__layout': typeof _layoutUserName_layoutRouteWithChildren
-  '/__layout/activyty/': typeof _layoutActivytyIndexRoute
+  '/__layout/activity/': typeof _layoutActivityIndexRoute
   '/__layout/$userName/post/$postId': typeof _layoutUserNamePostPostIdRoute
   '/__layout/$userName/__layout/': typeof _layoutUserName_layoutIndexRoute
-  '/__layout/activyty/follows/': typeof _layoutActivytyFollowsIndexRoute
+  '/__layout/activity/follows/': typeof _layoutActivityFollowsIndexRoute
   '/__layout/$userName/__layout/media/': typeof _layoutUserName_layoutMediaIndexRoute
   '/__layout/$userName/__layout/replies/': typeof _layoutUserName_layoutRepliesIndexRoute
   '/__layout/$userName/__layout/reposts/': typeof _layoutUserName_layoutRepostsIndexRoute
@@ -184,10 +184,10 @@ export interface FileRouteTypes {
     | '/search'
     | '/'
     | '/$userName'
-    | '/activyty'
+    | '/activity'
     | '/$userName/post/$postId'
     | '/$userName/'
-    | '/activyty/follows'
+    | '/activity/follows'
     | '/$userName/media'
     | '/$userName/replies'
     | '/$userName/reposts'
@@ -201,9 +201,9 @@ export interface FileRouteTypes {
     | '/search'
     | '/'
     | '/$userName'
-    | '/activyty'
+    | '/activity'
     | '/$userName/post/$postId'
-    | '/activyty/follows'
+    | '/activity/follows'
     | '/$userName/media'
     | '/$userName/replies'
     | '/$userName/reposts'
@@ -219,10 +219,10 @@ export interface FileRouteTypes {
     | '/__layout/'
     | '/__layout/$userName'
     | '/__layout/$userName/__layout'
-    | '/__layout/activyty/'
+    | '/__layout/activity/'
     | '/__layout/$userName/post/$postId'
     | '/__layout/$userName/__layout/'
-    | '/__layout/activyty/follows/'
+    | '/__layout/activity/follows/'
     | '/__layout/$userName/__layout/media/'
     | '/__layout/$userName/__layout/replies/'
     | '/__layout/$userName/__layout/reposts/'
@@ -298,11 +298,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutAboutRouteImport
       parentRoute: typeof _layoutRoute
     }
-    '/__layout/activyty/': {
-      id: '/__layout/activyty/'
-      path: '/activyty'
-      fullPath: '/activyty'
-      preLoaderRoute: typeof _layoutActivytyIndexRouteImport
+    '/__layout/activity/': {
+      id: '/__layout/activity/'
+      path: '/activity'
+      fullPath: '/activity'
+      preLoaderRoute: typeof _layoutActivityIndexRouteImport
       parentRoute: typeof _layoutRoute
     }
     '/__layout/$userName/__layout': {
@@ -312,11 +312,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutUserName_layoutRouteImport
       parentRoute: typeof _layoutUserNameRoute
     }
-    '/__layout/activyty/follows/': {
-      id: '/__layout/activyty/follows/'
-      path: '/activyty/follows'
-      fullPath: '/activyty/follows'
-      preLoaderRoute: typeof _layoutActivytyFollowsIndexRouteImport
+    '/__layout/activity/follows/': {
+      id: '/__layout/activity/follows/'
+      path: '/activity/follows'
+      fullPath: '/activity/follows'
+      preLoaderRoute: typeof _layoutActivityFollowsIndexRouteImport
       parentRoute: typeof _layoutRoute
     }
     '/__layout/$userName/__layout/': {
@@ -402,8 +402,8 @@ interface _layoutRouteChildren {
   _layoutSearchRoute: typeof _layoutSearchRoute
   _layoutIndexRoute: typeof _layoutIndexRoute
   _layoutUserNameRoute: typeof _layoutUserNameRouteWithChildren
-  _layoutActivytyIndexRoute: typeof _layoutActivytyIndexRoute
-  _layoutActivytyFollowsIndexRoute: typeof _layoutActivytyFollowsIndexRoute
+  _layoutActivityIndexRoute: typeof _layoutActivityIndexRoute
+  _layoutActivityFollowsIndexRoute: typeof _layoutActivityFollowsIndexRoute
 }
 
 const _layoutRouteChildren: _layoutRouteChildren = {
@@ -414,8 +414,8 @@ const _layoutRouteChildren: _layoutRouteChildren = {
   _layoutSearchRoute: _layoutSearchRoute,
   _layoutIndexRoute: _layoutIndexRoute,
   _layoutUserNameRoute: _layoutUserNameRouteWithChildren,
-  _layoutActivytyIndexRoute: _layoutActivytyIndexRoute,
-  _layoutActivytyFollowsIndexRoute: _layoutActivytyFollowsIndexRoute,
+  _layoutActivityIndexRoute: _layoutActivityIndexRoute,
+  _layoutActivityFollowsIndexRoute: _layoutActivityFollowsIndexRoute,
 }
 
 const _layoutRouteWithChildren =

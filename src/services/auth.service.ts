@@ -26,7 +26,7 @@ export const useSearchUsers = (query: string) => {
 };
 
 export const getSuggestedUsers = async (currentUserId: string): Promise<IUser[]> => {
-  const response = await axiosIntance.get(`/users?id_ne=${currentUserId}`);
+  const response = await axiosIntance.get(`/users?id_ne=${currentUserId}&_embed=followers`);
   return response.data;
 };
 
